@@ -1,3 +1,65 @@
+import pygame
+import sys
+
+pygame.init()
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("serif", 28)
+big_font = pygame.font.SysFont("serif", 60)
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+YELLOW = (255, 255, 100)
+
+# Intro text (scrolling)
+lore_lines = [
+    "In the shattered skies of Aetheris,",
+    "a sport was born not from war, but wisdom.",
+    "",
+    "Skystride: a clash of magic, motion, and mastery.",
+    "",
+    "Six champions take to the air—",
+    "striders, seekers, channelers, guards—",
+    "each casting, dashing, soaring for glory.",
+    "",
+    "Let the Skystride begin!"
+]
+
+def intro():
+    scroll_y = HEIGHT
+    intro_active = True
+    while intro_active:
+        screen.fill(BLACK)
+        title = big_font.render("⚡ SKYSTRIDE ⚡", True, YELLOW)
+        screen.blit(title, (WIDTH//2 - title.get_width()//2, 50))
+
+        for i, line in enumerate(lore_lines):
+            text = font.render(line, True, WHITE)
+            screen.blit(text, (100, scroll_y + i * 40))
+
+        scroll_y -= 1
+        if scroll_y < -len(lore_lines) * 40:
+            msg = font.render("Press SPACE to start", True, YELLOW)
+            screen.blit(msg, (WIDTH//2 - msg.get_width()//2, HEIGHT - 80))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and scroll_y < -len(lore_lines) * 40:
+                if event.key == pygame.K_SPACE:
+                    intro_active = False
+
+        pygame.display.flip()
+        clock.tick(60)
+
+# Call intro screen
+intro()
+
+# ----- Game logic from earlier goes below -----
+# You can copy the main game code (from earlier response) here after the intro
 Pygame Front Page
 =================
 
